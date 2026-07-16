@@ -9,7 +9,7 @@ export function PartnerNamePage() {
   const { state, dispatch } = useLoveBook();
   const [name, setName] = useState(state.partnerName);
   return <PageContainer className="form-page">
-    <header className="simple-header"><TextButton aria-label="返回首页" onClick={() => dispatch({ type: "navigate", page: "home" })}><ArrowLeft size={21} /></TextButton><span>01 / 03</span></header>
+    <header className="simple-header"><TextButton aria-label="返回模式选择" onClick={() => dispatch({ type: "navigate", page: "mode" })}><ArrowLeft size={21} /></TextButton><span>和 TA 一起</span></header>
     <section className="form-copy">
       <p className="section-kicker">写下一个称呼</p>
       <h1>你想和谁<br />一起完成？</h1>

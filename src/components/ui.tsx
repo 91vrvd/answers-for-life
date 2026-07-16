@@ -3,6 +3,7 @@
 import { BookOpen, Check, Heart, House, UserRound } from "lucide-react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import type { Page } from "@/src/state/LoveBookContext";
+import type { LoveMode } from "@/src/data/tasks";
 
 export function PageContainer({ children, className = "", bottomNav = false }: { children: ReactNode; className?: string; bottomNav?: boolean }) {
   return <main className={`page ${bottomNav ? "page-with-nav" : ""} ${className}`}>{children}</main>;
@@ -32,11 +33,11 @@ export function Toast({ message, visible }: { message: string; visible: boolean 
   return <div className={`toast ${visible ? "toast-visible" : ""}`} role="status"><Check size={16} />{message}</div>;
 }
 
-export function BottomNavigation({ active, onNavigate }: { active: "answers" | "things" | "us"; onNavigate: (page: Page) => void }) {
+export function BottomNavigation({ active, mode = "couple", onNavigate }: { active: "answers" | "things" | "us"; mode?: LoveMode; onNavigate: (page: Page) => void }) {
   const items = [
-    { id: "answers", label: "答案", icon: BookOpen, page: "couple" as Page },
+    { id: "answers", label: "答案", icon: BookOpen, page: (mode === "self" ? "personal" : "couple") as Page },
     { id: "things", label: "小事", icon: Heart, page: "things" as Page },
-    { id: "us", label: "我们", icon: UserRound, page: "things" as Page },
+    { id: "us", label: mode === "self" ? "自己" : "我们", icon: UserRound, page: "things" as Page },
   ];
   return <nav className="bottom-nav" aria-label="主要导航">{items.map((item) => {
     const Icon = item.icon;

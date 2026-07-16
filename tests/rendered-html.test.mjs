@@ -17,6 +17,6 @@ test("server renders the finished love-book application", async () => {
   const html = await response.text();
   assert.match(html, /<html lang="zh-CN">/i);
   assert.match(html, /<title>关于爱的100件小事<\/title>/i);
-  assert.match(html, /正在打开你们的小册子/);
+  assert.match(html, /正在打开关于爱的小册子/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });

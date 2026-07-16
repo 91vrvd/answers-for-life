@@ -2,7 +2,9 @@
 
 import { LoveBookProvider, useLoveBook } from "@/src/state/LoveBookContext";
 import { HomePage } from "@/src/screens/HomePage";
+import { ModePage } from "@/src/screens/ModePage";
 import { PartnerNamePage } from "@/src/screens/PartnerNamePage";
+import { QuestionCountPage } from "@/src/screens/QuestionCountPage";
 import { IntroPage } from "@/src/screens/IntroPage";
 import { QuestionPage } from "@/src/screens/QuestionPage";
 import { PersonalResultPage } from "@/src/screens/PersonalResultPage";
@@ -12,8 +14,8 @@ import { ThingsPage } from "@/src/screens/ThingsPage";
 
 function Router() {
   const { state } = useLoveBook();
-  if (!state.hydrated) return <main className="app-loading"><i /><span>正在打开你们的小册子</span></main>;
-  const pages = { home: HomePage, name: PartnerNamePage, intro: IntroPage, questions: QuestionPage, personal: PersonalResultPage, invite: InvitePage, couple: CoupleResultPage, things: ThingsPage };
+  if (!state.hydrated) return <main className="app-loading"><i /><span>正在打开关于爱的小册子</span></main>;
+  const pages = { home: HomePage, mode: ModePage, name: PartnerNamePage, count: QuestionCountPage, intro: IntroPage, questions: QuestionPage, personal: PersonalResultPage, invite: InvitePage, couple: CoupleResultPage, things: ThingsPage };
   const CurrentPage = pages[state.page];
   return <div className="app-shell"><CurrentPage /></div>;
 }
