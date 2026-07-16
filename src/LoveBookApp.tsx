@@ -1,0 +1,23 @@
+"use client";
+
+import { LoveBookProvider, useLoveBook } from "@/src/state/LoveBookContext";
+import { HomePage } from "@/src/screens/HomePage";
+import { PartnerNamePage } from "@/src/screens/PartnerNamePage";
+import { IntroPage } from "@/src/screens/IntroPage";
+import { QuestionPage } from "@/src/screens/QuestionPage";
+import { PersonalResultPage } from "@/src/screens/PersonalResultPage";
+import { InvitePage } from "@/src/screens/InvitePage";
+import { CoupleResultPage } from "@/src/screens/CoupleResultPage";
+import { ThingsPage } from "@/src/screens/ThingsPage";
+
+function Router() {
+  const { state } = useLoveBook();
+  if (!state.hydrated) return <main className="app-loading"><i /><span>正在打开你们的小册子</span></main>;
+  const pages = { home: HomePage, name: PartnerNamePage, intro: IntroPage, questions: QuestionPage, personal: PersonalResultPage, invite: InvitePage, couple: CoupleResultPage, things: ThingsPage };
+  const CurrentPage = pages[state.page];
+  return <div className="app-shell"><CurrentPage /></div>;
+}
+
+export function LoveBookApp() {
+  return <LoveBookProvider><Router /></LoveBookProvider>;
+}
