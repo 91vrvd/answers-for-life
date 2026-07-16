@@ -3,10 +3,11 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from "react";
 import { createReflectionSelection, reflectionPrompts } from "@/src/data/reflectionPrompts";
 import { createTaskSelection, tasks, type LoveMode } from "@/src/data/tasks";
+import { challengeTasks } from "@/src/data/challengeTasks";
 
 export type Answer = "skip" | "done" | "want";
-export type Journey = "actions" | "reflection";
-export type Page = "home" | "mode" | "journey" | "name" | "count" | "intro" | "questions" | "personal" | "invite" | "couple" | "things" | "reflectionIntro" | "reflection" | "reflectionResult";
+export type Journey = "actions" | "reflection" | "challenge";
+export type Page = "home" | "mode" | "journey" | "name" | "count" | "intro" | "questions" | "personal" | "invite" | "couple" | "things" | "reflectionIntro" | "reflection" | "reflectionResult" | "challenge";
 
 export type LoveState = {
   page: Page;
@@ -24,10 +25,14 @@ export type LoveState = {
   reflectionIndex: number;
   writtenAnswers: Record<string, string>;
   sharePromptId: string | null;
+  challengeCompletedIds: number[];
+  challengeCustomTitles: Record<number, string>;
+  challengeStartedAt: string | null;
   hydrated: boolean;
 };
 
-const STORAGE_KEY = "little-things-about-love:v3";
+const STORAGE_KEY = "little-things-about-love:v4";
+const LEGACY_STORAGE_KEY = "little-things-about-love:v3";
 const initialState: LoveState = {
   page: "home",
   mode: null,
@@ -44,6 +49,9 @@ const initialState: LoveState = {
   reflectionIndex: 0,
   writtenAnswers: {},
   sharePromptId: null,
+  challengeCompletedIds: [],
+  challengeCustomTitles: {},
+  challengeStartedAt: null,
   hydrated: false,
 };
 
@@ -63,6 +71,9 @@ type Action =
   | { type: "nextReflection" }
   | { type: "previousReflection" }
   | { type: "selectSharePrompt"; promptId: string }
+  | { type: "toggleChallenge"; taskId: number }
+  | { type: "updateChallengeTask"; taskId: number; title: string }
+  | { type: "resetChallenge" }
   | { type: "restart" };
 
 function reducer(state: LoveState, action: Action): LoveState {
@@ -74,13 +85,18 @@ function reducer(state: LoveState, action: Action): LoveState {
       const selectedTaskIds = (saved.selectedTaskIds ?? []).filter((id) => tasks.some((task) => task.id === id));
       const validPromptIds = new Set(reflectionPrompts.map((prompt) => prompt.id));
       const selectedPromptIds = (saved.selectedPromptIds ?? []).filter((id) => validPromptIds.has(id));
+      const validChallengeIds = new Set(challengeTasks.map((task) => task.id));
+      const challengeCompletedIds = (saved.challengeCompletedIds ?? []).filter((id) => validChallengeIds.has(id));
+      const challengeCustomTitles = Object.fromEntries(Object.entries(saved.challengeCustomTitles ?? {})
+        .filter(([id, title]) => validChallengeIds.has(Number(id)) && typeof title === "string" && title.trim())) as Record<number, string>;
       const currentIndex = Math.min(saved.currentIndex ?? Object.keys(saved.answers ?? {}).length, selectedTaskIds.length);
       const reflectionIndex = Math.min(saved.reflectionIndex ?? 0, Math.max(selectedPromptIds.length - 1, 0));
       let page = saved.page ?? "home";
       if (!mode && page !== "home") page = "mode";
       if (page === "questions" && (!selectedTaskIds.length || currentIndex >= selectedTaskIds.length)) page = selectedTaskIds.length ? "personal" : "count";
       if (page === "reflection" && !selectedPromptIds.length) page = "reflectionIntro";
-      return { ...state, ...saved, mode, journey, selectedTaskIds, selectedPromptIds, currentIndex, reflectionIndex, page, hydrated: true };
+      if (page === "challenge" && mode !== "self") page = "journey";
+      return { ...state, ...saved, mode, journey, selectedTaskIds, selectedPromptIds, challengeCompletedIds, challengeCustomTitles, currentIndex, reflectionIndex, page, hydrated: true };
     }
     case "navigate": return { ...state, page: action.page };
     case "setMode": return {
@@ -88,6 +104,9 @@ function reducer(state: LoveState, action: Action): LoveState {
       hydrated: true,
       mode: action.mode,
       partnerName: state.partnerName,
+      challengeCompletedIds: state.challengeCompletedIds,
+      challengeCustomTitles: state.challengeCustomTitles,
+      challengeStartedAt: state.challengeStartedAt,
       page: "journey",
     };
     case "setJourney": return {
@@ -101,7 +120,8 @@ function reducer(state: LoveState, action: Action): LoveState {
       reflectionIndex: 0,
       writtenAnswers: {},
       sharePromptId: null,
-      page: state.mode === "couple" ? "name" : action.journey === "actions" ? "count" : "reflectionIntro",
+      page: state.mode === "couple" ? "name" : action.journey === "actions" ? "count" : action.journey === "reflection" ? "reflectionIntro" : "challenge",
+      challengeStartedAt: action.journey === "challenge" ? state.challengeStartedAt ?? new Date().toISOString() : state.challengeStartedAt,
     };
     case "setName": return { ...state, partnerName: action.name.trim(), page: state.journey === "reflection" ? "reflectionIntro" : "count" };
     case "prepareQuiz": {
@@ -152,9 +172,28 @@ function reducer(state: LoveState, action: Action): LoveState {
     }
     case "previousReflection": return { ...state, reflectionIndex: Math.max(0, state.reflectionIndex - 1) };
     case "selectSharePrompt": return { ...state, sharePromptId: action.promptId };
+    case "toggleChallenge": {
+      const completed = state.challengeCompletedIds.includes(action.taskId);
+      return {
+        ...state,
+        challengeCompletedIds: completed
+          ? state.challengeCompletedIds.filter((id) => id !== action.taskId)
+          : [...state.challengeCompletedIds, action.taskId],
+      };
+    }
+    case "updateChallengeTask": {
+      const title = action.title.trim();
+      const challengeCustomTitles = { ...state.challengeCustomTitles };
+      if (title) challengeCustomTitles[action.taskId] = title;
+      else delete challengeCustomTitles[action.taskId];
+      return { ...state, challengeCustomTitles };
+    }
+    case "resetChallenge": return { ...state, challengeCompletedIds: [], challengeCustomTitles: {}, challengeStartedAt: new Date().toISOString() };
     case "restart": return state.journey === "reflection"
       ? { ...state, selectedPromptIds: [], reflectionIndex: 0, writtenAnswers: {}, sharePromptId: null, page: "reflectionIntro" }
-      : { ...state, selectedTaskIds: [], currentIndex: 0, answers: {}, partnerAnswers: {}, firstTaskId: null, page: "count" };
+      : state.journey === "challenge"
+        ? { ...state, page: "challenge" }
+        : { ...state, selectedTaskIds: [], currentIndex: 0, answers: {}, partnerAnswers: {}, firstTaskId: null, page: "count" };
     default: return state;
   }
 }
@@ -168,7 +207,8 @@ export function LoveBookProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      dispatch({ type: "hydrate", payload: raw ? JSON.parse(raw) : {} });
+      const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
+      dispatch({ type: "hydrate", payload: raw ? JSON.parse(raw) : legacyRaw ? JSON.parse(legacyRaw) : {} });
     } catch {
       dispatch({ type: "hydrate", payload: {} });
     }

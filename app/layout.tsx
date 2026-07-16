@@ -7,14 +7,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:3000";
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const base = new URL(`${protocol}://${host}`);
-  const description = "选择关于爱的小事，也写下只属于你们或自己的真心答案。";
+  const description = "选择关于爱的小事，写下真心答案，也开始一场不必连续的30天全新自己挑战。";
   return {
     metadataBase: base,
     title: "关于爱的100件小事",
     description,
     icons: { icon: "/favicon.svg" },
-    openGraph: { title: "关于爱的100件小事", description, images: [{ url: new URL("/og-v3.png", base), width: 1672, height: 941 }] },
-    twitter: { card: "summary_large_image", title: "关于爱的100件小事", description, images: [new URL("/og-v3.png", base)] },
+    openGraph: { title: "关于爱的100件小事", description, images: [{ url: new URL("/og-v4.png", base), width: 1672, height: 941 }] },
+    twitter: { card: "summary_large_image", title: "关于爱的100件小事", description, images: [new URL("/og-v4.png", base)] },
   };
 }
 

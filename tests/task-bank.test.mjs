@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createTaskSelection, getTaskContent, tasks } from "../src/data/tasks.ts";
 import { createReflectionSelection, getReflectionPrompt, reflectionPrompts } from "../src/data/reflectionPrompts.ts";
+import { challengeTasks } from "../src/data/challengeTasks.ts";
 
 test("contains 100 complete dual-mode topics", () => {
   assert.equal(tasks.length, 100);
@@ -40,5 +41,17 @@ test("contains balanced original written prompts for both love modes", () => {
       assert.equal(new Set(ids).size, count);
       assert.ok(ids.every((id) => getReflectionPrompt(id)?.mode === mode));
     }
+  }
+});
+
+test("contains 30 complete and editable self-challenge tasks", () => {
+  assert.equal(challengeTasks.length, 30);
+  assert.equal(new Set(challengeTasks.map((task) => task.id)).size, 30);
+  assert.equal(challengeTasks[0].id, 1);
+  assert.equal(challengeTasks.at(-1).id, 30);
+  for (const task of challengeTasks) {
+    assert.ok(task.category.trim());
+    assert.ok(task.title.trim());
+    assert.ok(task.description.trim());
   }
 });

@@ -8,8 +8,9 @@ export function HomePage() {
   const { state, dispatch } = useLoveBook();
   const hasActionProgress = Boolean(state.mode && state.journey === "actions" && state.selectedTaskIds.length && state.currentIndex < state.selectedTaskIds.length && Object.keys(state.answers).length);
   const hasReflectionProgress = Boolean(state.mode && state.journey === "reflection" && state.selectedPromptIds.length && state.reflectionIndex < state.selectedPromptIds.length);
-  const hasProgress = hasActionProgress || hasReflectionProgress;
-  const progressPage = hasReflectionProgress ? "reflection" : "questions";
+  const hasChallengeProgress = Boolean(state.mode === "self" && state.journey === "challenge" && (state.challengeStartedAt || state.challengeCompletedIds.length));
+  const hasProgress = hasActionProgress || hasReflectionProgress || hasChallengeProgress;
+  const progressPage = hasChallengeProgress ? "challenge" : hasReflectionProgress ? "reflection" : "questions";
   return <PageContainer className="home-page">
     <div className="home-top">
       <p className="eyebrow">100 LITTLE THINGS ABOUT LOVE</p>
