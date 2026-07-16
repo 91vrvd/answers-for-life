@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createTaskSelection, getTaskContent, tasks } from "../src/data/tasks.ts";
+import { createReflectionSelection, getReflectionPrompt, reflectionPrompts } from "../src/data/reflectionPrompts.ts";
 
 test("contains 100 complete dual-mode topics", () => {
   assert.equal(tasks.length, 100);
@@ -24,6 +25,20 @@ test("creates stable-sized unique and category-balanced selections", () => {
       const categories = ids.map((id) => getTaskContent(tasks.find((task) => task.id === id), mode).category);
       const amounts = Object.values(Object.groupBy(categories, (category) => category)).map((items) => items.length);
       assert.ok(Math.max(...amounts) - Math.min(...amounts) <= 1);
+    }
+  }
+});
+
+test("contains balanced original written prompts for both love modes", () => {
+  assert.equal(reflectionPrompts.filter((prompt) => prompt.mode === "self").length, 36);
+  assert.equal(reflectionPrompts.filter((prompt) => prompt.mode === "couple").length, 36);
+  assert.equal(new Set(reflectionPrompts.map((prompt) => prompt.id)).size, reflectionPrompts.length);
+  for (const mode of ["couple", "self"]) {
+    for (const count of [3, 6, 12]) {
+      const ids = createReflectionSelection(mode, count);
+      assert.equal(ids.length, count);
+      assert.equal(new Set(ids).size, count);
+      assert.ok(ids.every((id) => getReflectionPrompt(id)?.mode === mode));
     }
   }
 });

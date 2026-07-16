@@ -6,7 +6,10 @@ import { useLoveBook } from "@/src/state/LoveBookContext";
 
 export function HomePage() {
   const { state, dispatch } = useLoveBook();
-  const hasProgress = Boolean(state.mode && state.selectedTaskIds.length && state.currentIndex < state.selectedTaskIds.length && Object.keys(state.answers).length);
+  const hasActionProgress = Boolean(state.mode && state.journey === "actions" && state.selectedTaskIds.length && state.currentIndex < state.selectedTaskIds.length && Object.keys(state.answers).length);
+  const hasReflectionProgress = Boolean(state.mode && state.journey === "reflection" && state.selectedPromptIds.length && state.reflectionIndex < state.selectedPromptIds.length);
+  const hasProgress = hasActionProgress || hasReflectionProgress;
+  const progressPage = hasReflectionProgress ? "reflection" : "questions";
   return <PageContainer className="home-page">
     <div className="home-top">
       <p className="eyebrow">100 LITTLE THINGS ABOUT LOVE</p>
@@ -18,7 +21,7 @@ export function HomePage() {
     </div>
     <div className="home-actions">
       <p className="home-description">从 100 件关于爱的小事里，<br />找到你此刻真正想要的生活。</p>
-      <PrimaryButton onClick={() => dispatch({ type: "navigate", page: hasProgress ? "questions" : "mode" })}>
+      <PrimaryButton onClick={() => dispatch({ type: "navigate", page: hasProgress ? progressPage : "mode" })}>
         {hasProgress ? "继续刚才的答案" : "开始一份答案"}<ArrowRight size={18} />
       </PrimaryButton>
       <TextButton onClick={() => dispatch({ type: "setMode", mode: "couple" })}>我收到了一份邀请</TextButton>

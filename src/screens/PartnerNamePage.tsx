@@ -9,7 +9,7 @@ export function PartnerNamePage() {
   const { state, dispatch } = useLoveBook();
   const [name, setName] = useState(state.partnerName);
   return <PageContainer className="form-page">
-    <header className="simple-header"><TextButton aria-label="返回模式选择" onClick={() => dispatch({ type: "navigate", page: "mode" })}><ArrowLeft size={21} /></TextButton><span>和 TA 一起</span></header>
+    <header className="simple-header"><TextButton aria-label="返回回答方式" onClick={() => dispatch({ type: "navigate", page: "journey" })}><ArrowLeft size={21} /></TextButton><span>和 TA 一起</span></header>
     <section className="form-copy">
       <p className="section-kicker">写下一个称呼</p>
       <h1>你想和谁<br />一起完成？</h1>
@@ -22,7 +22,7 @@ export function PartnerNamePage() {
     </div>
     <div className="sticky-actions">
       <PrimaryButton disabled={!name.trim()} onClick={() => dispatch({ type: "setName", name })}>下一步<ArrowRight size={18} /></PrimaryButton>
-      <p>稍后你可以把结果发给 TA</p>
+      <p>{state.journey === "reflection" ? "稍后可以把写下的答案保存成卡片" : "稍后你可以把结果发给 TA"}</p>
     </div>
   </PageContainer>;
 }

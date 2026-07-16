@@ -9,7 +9,7 @@ import { useLoveBook } from "@/src/state/LoveBookContext";
 export function QuestionCountPage() {
   const { state, dispatch } = useLoveBook();
   const [count, setCount] = useState(state.questionCount || 15);
-  const backPage = state.mode === "couple" ? "name" : "mode";
+  const backPage = state.mode === "couple" ? "name" : "journey";
   const time = count <= 15 ? "约 2–3 分钟" : count <= 30 ? "约 5 分钟" : count <= 50 ? "约 8 分钟" : "约 15 分钟";
   return <PageContainer className="count-page">
     <header className="simple-header"><TextButton aria-label="返回" onClick={() => dispatch({ type: "navigate", page: backPage })}><ArrowLeft size={21} /></TextButton><span>选择题量</span></header>
