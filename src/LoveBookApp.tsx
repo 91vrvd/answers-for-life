@@ -16,11 +16,17 @@ import { ReflectionIntroPage } from "@/src/screens/ReflectionIntroPage";
 import { ReflectionPage } from "@/src/screens/ReflectionPage";
 import { ReflectionResultPage } from "@/src/screens/ReflectionResultPage";
 import { ChallengePage } from "@/src/screens/ChallengePage";
+import { ThemeLibraryPage } from "@/src/screens/ThemeLibraryPage";
+import { ThemeModePage } from "@/src/screens/ThemeModePage";
+import { ThemeCountPage } from "@/src/screens/ThemeCountPage";
+import { ThemeChoicePage } from "@/src/screens/ThemeChoicePage";
+import { ThemeWritePage } from "@/src/screens/ThemeWritePage";
+import { ThemeResultPage } from "@/src/screens/ThemeResultPage";
 
 function Router() {
   const { state } = useLoveBook();
-  if (!state.hydrated) return <main className="app-loading"><i /><span>正在打开关于爱的小册子</span></main>;
-  const pages = { home: HomePage, mode: ModePage, journey: JourneyPage, name: PartnerNamePage, count: QuestionCountPage, intro: IntroPage, questions: QuestionPage, personal: PersonalResultPage, invite: InvitePage, couple: CoupleResultPage, things: ThingsPage, reflectionIntro: ReflectionIntroPage, reflection: ReflectionPage, reflectionResult: ReflectionResultPage, challenge: ChallengePage };
+  if (!state.hydrated) return <main className="app-loading"><i /><span>正在打开给生活的答案</span></main>;
+  const pages = { home: HomePage, themes: ThemeLibraryPage, themeMode: ThemeModePage, themeCount: ThemeCountPage, themeChoice: ThemeChoicePage, themeWrite: ThemeWritePage, themeResult: ThemeResultPage, mode: ModePage, journey: JourneyPage, name: PartnerNamePage, count: QuestionCountPage, intro: IntroPage, questions: QuestionPage, personal: PersonalResultPage, invite: InvitePage, couple: CoupleResultPage, things: ThingsPage, reflectionIntro: ReflectionIntroPage, reflection: ReflectionPage, reflectionResult: ReflectionResultPage, challenge: ChallengePage };
   const CurrentPage = pages[state.page];
   return <div className="app-shell"><CurrentPage /></div>;
 }

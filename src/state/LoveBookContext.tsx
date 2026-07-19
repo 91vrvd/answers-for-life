@@ -4,10 +4,11 @@ import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNo
 import { createReflectionSelection, reflectionPrompts } from "@/src/data/reflectionPrompts";
 import { createTaskSelection, tasks, type LoveMode } from "@/src/data/tasks";
 import { challengeTasks } from "@/src/data/challengeTasks";
+import { createThemeSelection, getLifeTheme, type ResponseMode } from "@/src/data/themes";
 
 export type Answer = "skip" | "done" | "want";
 export type Journey = "actions" | "reflection" | "challenge";
-export type Page = "home" | "mode" | "journey" | "name" | "count" | "intro" | "questions" | "personal" | "invite" | "couple" | "things" | "reflectionIntro" | "reflection" | "reflectionResult" | "challenge";
+export type Page = "home" | "themes" | "themeMode" | "themeCount" | "themeChoice" | "themeWrite" | "themeResult" | "mode" | "journey" | "name" | "count" | "intro" | "questions" | "personal" | "invite" | "couple" | "things" | "reflectionIntro" | "reflection" | "reflectionResult" | "challenge";
 
 export type LoveState = {
   page: Page;
@@ -28,11 +29,18 @@ export type LoveState = {
   challengeCompletedIds: number[];
   challengeCustomTitles: Record<number, string>;
   challengeStartedAt: string | null;
+  selectedThemeId: string | null;
+  themeResponseMode: ResponseMode | null;
+  themeCount: number;
+  selectedThemeItemIds: string[];
+  themeIndex: number;
+  themeChoiceAnswers: Record<string, string>;
+  themeWrittenAnswers: Record<string, string>;
   hydrated: boolean;
 };
 
-const STORAGE_KEY = "little-things-about-love:v4";
-const LEGACY_STORAGE_KEY = "little-things-about-love:v3";
+const STORAGE_KEY = "life-answers:v5";
+const LEGACY_STORAGE_KEYS = ["little-things-about-love:v4", "little-things-about-love:v3"];
 const initialState: LoveState = {
   page: "home",
   mode: null,
@@ -52,6 +60,13 @@ const initialState: LoveState = {
   challengeCompletedIds: [],
   challengeCustomTitles: {},
   challengeStartedAt: null,
+  selectedThemeId: null,
+  themeResponseMode: null,
+  themeCount: 12,
+  selectedThemeItemIds: [],
+  themeIndex: 0,
+  themeChoiceAnswers: {},
+  themeWrittenAnswers: {},
   hydrated: false,
 };
 
@@ -74,6 +89,14 @@ type Action =
   | { type: "toggleChallenge"; taskId: number }
   | { type: "updateChallengeTask"; taskId: number; title: string }
   | { type: "resetChallenge" }
+  | { type: "selectTheme"; themeId: string }
+  | { type: "setThemeResponseMode"; mode: ResponseMode }
+  | { type: "prepareThemeRun"; count: number }
+  | { type: "answerThemeChoice"; itemId: string; value: string }
+  | { type: "setThemeWrittenAnswer"; itemId: string; value: string }
+  | { type: "nextThemeItem" }
+  | { type: "previousThemeItem" }
+  | { type: "restartTheme" }
   | { type: "restart" };
 
 function reducer(state: LoveState, action: Action): LoveState {
@@ -91,12 +114,24 @@ function reducer(state: LoveState, action: Action): LoveState {
         .filter(([id, title]) => validChallengeIds.has(Number(id)) && typeof title === "string" && title.trim())) as Record<number, string>;
       const currentIndex = Math.min(saved.currentIndex ?? Object.keys(saved.answers ?? {}).length, selectedTaskIds.length);
       const reflectionIndex = Math.min(saved.reflectionIndex ?? 0, Math.max(selectedPromptIds.length - 1, 0));
+      const theme = getLifeTheme(saved.selectedThemeId);
+      const validThemeIds = new Set(theme?.items.map((item) => item.id) ?? []);
+      const selectedThemeItemIds = (saved.selectedThemeItemIds ?? []).filter((id) => validThemeIds.has(id));
+      const validChoiceValues = new Set(theme?.choices.map((choice) => choice.value) ?? []);
+      const themeChoiceAnswers = Object.fromEntries(Object.entries(saved.themeChoiceAnswers ?? {}).filter(([id, value]) => validThemeIds.has(id) && typeof value === "string" && validChoiceValues.has(value)));
+      const themeWrittenAnswers = Object.fromEntries(Object.entries(saved.themeWrittenAnswers ?? {}).filter(([id, value]) => validThemeIds.has(id) && typeof value === "string").map(([id, value]) => [id, value.slice(0, 1200)]));
+      const themeIndex = Math.min(Math.max(saved.themeIndex ?? 0, 0), selectedThemeItemIds.length);
+      const themeResponseMode = saved.themeResponseMode === "choice" || saved.themeResponseMode === "write" ? saved.themeResponseMode : null;
       let page = saved.page ?? "home";
+      if (!theme && page !== "home" && page !== "themes") page = "home";
+      if (page.startsWith("theme") && !theme) page = "themes";
+      if ((page === "themeChoice" || page === "themeWrite") && !selectedThemeItemIds.length) page = themeResponseMode ? "themeCount" : "themeMode";
+      if ((page === "themeChoice" || page === "themeWrite") && themeIndex >= selectedThemeItemIds.length) page = "themeResult";
       if (!mode && page !== "home") page = "mode";
       if (page === "questions" && (!selectedTaskIds.length || currentIndex >= selectedTaskIds.length)) page = selectedTaskIds.length ? "personal" : "count";
       if (page === "reflection" && !selectedPromptIds.length) page = "reflectionIntro";
       if (page === "challenge" && mode !== "self") page = "journey";
-      return { ...state, ...saved, mode, journey, selectedTaskIds, selectedPromptIds, challengeCompletedIds, challengeCustomTitles, currentIndex, reflectionIndex, page, hydrated: true };
+      return { ...state, ...saved, mode, journey, selectedTaskIds, selectedPromptIds, challengeCompletedIds, challengeCustomTitles, currentIndex, reflectionIndex, selectedThemeId: theme?.id ?? null, themeResponseMode, selectedThemeItemIds, themeChoiceAnswers, themeWrittenAnswers, themeIndex, page, hydrated: true };
     }
     case "navigate": return { ...state, page: action.page };
     case "setMode": return {
@@ -189,6 +224,43 @@ function reducer(state: LoveState, action: Action): LoveState {
       return { ...state, challengeCustomTitles };
     }
     case "resetChallenge": return { ...state, challengeCompletedIds: [], challengeCustomTitles: {}, challengeStartedAt: new Date().toISOString() };
+    case "selectTheme": return {
+      ...state,
+      selectedThemeId: action.themeId,
+      themeResponseMode: null,
+      selectedThemeItemIds: [],
+      themeIndex: 0,
+      themeChoiceAnswers: {},
+      themeWrittenAnswers: {},
+      page: "themeMode",
+    };
+    case "setThemeResponseMode": return { ...state, themeResponseMode: action.mode, page: "themeCount" };
+    case "prepareThemeRun": {
+      const theme = getLifeTheme(state.selectedThemeId);
+      if (!theme || !state.themeResponseMode) return { ...state, page: "themes" };
+      const selectedThemeItemIds = createThemeSelection(theme, action.count);
+      return {
+        ...state,
+        themeCount: selectedThemeItemIds.length,
+        selectedThemeItemIds,
+        themeIndex: 0,
+        themeChoiceAnswers: {},
+        themeWrittenAnswers: {},
+        page: state.themeResponseMode === "write" ? "themeWrite" : "themeChoice",
+      };
+    }
+    case "answerThemeChoice": {
+      const themeChoiceAnswers = { ...state.themeChoiceAnswers, [action.itemId]: action.value };
+      const nextIndex = Math.min(state.themeIndex + 1, state.selectedThemeItemIds.length);
+      return { ...state, themeChoiceAnswers, themeIndex: nextIndex, page: nextIndex >= state.selectedThemeItemIds.length ? "themeResult" : "themeChoice" };
+    }
+    case "setThemeWrittenAnswer": return { ...state, themeWrittenAnswers: { ...state.themeWrittenAnswers, [action.itemId]: action.value.slice(0, 1200) } };
+    case "nextThemeItem": {
+      const nextIndex = Math.min(state.themeIndex + 1, state.selectedThemeItemIds.length);
+      return { ...state, themeIndex: nextIndex, page: nextIndex >= state.selectedThemeItemIds.length ? "themeResult" : state.page };
+    }
+    case "previousThemeItem": return { ...state, themeIndex: Math.max(0, state.themeIndex - 1) };
+    case "restartTheme": return { ...state, selectedThemeItemIds: [], themeIndex: 0, themeChoiceAnswers: {}, themeWrittenAnswers: {}, page: "themeCount" };
     case "restart": return state.journey === "reflection"
       ? { ...state, selectedPromptIds: [], reflectionIndex: 0, writtenAnswers: {}, sharePromptId: null, page: "reflectionIntro" }
       : state.journey === "challenge"
@@ -207,7 +279,7 @@ export function LoveBookProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
+      const legacyRaw = LEGACY_STORAGE_KEYS.map((key) => localStorage.getItem(key)).find(Boolean);
       dispatch({ type: "hydrate", payload: raw ? JSON.parse(raw) : legacyRaw ? JSON.parse(legacyRaw) : {} });
     } catch {
       dispatch({ type: "hydrate", payload: {} });

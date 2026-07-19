@@ -10,13 +10,13 @@ async function render() {
   }, { waitUntil() {}, passThroughOnException() {} });
 }
 
-test("server renders the finished love-book application", async () => {
+test("server renders the finished life-answers application", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /<html lang="zh-CN">/i);
-  assert.match(html, /<title>关于爱的100件小事<\/title>/i);
-  assert.match(html, /正在打开关于爱的小册子/);
+  assert.match(html, /<title>给生活的答案<\/title>/i);
+  assert.match(html, /正在打开给生活的答案/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });

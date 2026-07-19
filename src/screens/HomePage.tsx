@@ -1,32 +1,31 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import { PageContainer, PrimaryButton, TextButton } from "@/src/components/ui";
+import { ArrowRight, BookOpenText } from "lucide-react";
+import { PageContainer, PrimaryButton } from "@/src/components/ui";
+import { getLifeTheme } from "@/src/data/themes";
 import { useLoveBook } from "@/src/state/LoveBookContext";
 
 export function HomePage() {
   const { state, dispatch } = useLoveBook();
-  const hasActionProgress = Boolean(state.mode && state.journey === "actions" && state.selectedTaskIds.length && state.currentIndex < state.selectedTaskIds.length && Object.keys(state.answers).length);
-  const hasReflectionProgress = Boolean(state.mode && state.journey === "reflection" && state.selectedPromptIds.length && state.reflectionIndex < state.selectedPromptIds.length);
-  const hasChallengeProgress = Boolean(state.mode === "self" && state.journey === "challenge" && (state.challengeStartedAt || state.challengeCompletedIds.length));
-  const hasProgress = hasActionProgress || hasReflectionProgress || hasChallengeProgress;
-  const progressPage = hasChallengeProgress ? "challenge" : hasReflectionProgress ? "reflection" : "questions";
+  const currentTheme = getLifeTheme(state.selectedThemeId);
+  const hasThemeProgress = Boolean(currentTheme && state.themeResponseMode && state.selectedThemeItemIds.length);
+  const progressPage = state.themeIndex >= state.selectedThemeItemIds.length ? "themeResult" : state.themeResponseMode === "write" ? "themeWrite" : "themeChoice";
   return <PageContainer className="home-page">
     <div className="home-top">
-      <p className="eyebrow">100 LITTLE THINGS ABOUT LOVE</p>
+      <p className="eyebrow">ANSWERS FOR LIFE</p>
       <div className="relationship-lines" aria-hidden="true"><i /><i /><b /></div>
       <div className="home-title-block">
-        <h1>关于爱的<br /><em>100</em> 件小事</h1>
-        <p className="home-subtitle">爱可以写给彼此，<br />也可以认真留给自己。</p>
+        <h1>给生活的<br /><em>答案</em></h1>
+        <p className="home-subtitle">有些问题不必立刻想清楚，<br />可以先认真回答一次。</p>
       </div>
     </div>
     <div className="home-actions">
-      <p className="home-description">从 100 件关于爱的小事里，<br />找到你此刻真正想要的生活。</p>
-      <PrimaryButton onClick={() => dispatch({ type: "navigate", page: hasProgress ? progressPage : "mode" })}>
-        {hasProgress ? "继续刚才的答案" : "开始一份答案"}<ArrowRight size={18} />
+      <p className="home-description">12 个关于成长、生活、关系与现实的主题，<br />选择答案，或亲手写下自己。</p>
+      <PrimaryButton onClick={() => dispatch({ type: "navigate", page: hasThemeProgress ? progressPage : "themes" })}>
+        {hasThemeProgress ? "继续刚才的答案" : "选择一个主题"}<ArrowRight size={18} />
       </PrimaryButton>
-      <TextButton onClick={() => dispatch({ type: "setMode", mode: "couple" })}>我收到了一份邀请</TextButton>
-      <p className="privacy-note">无需注册 · 答案默认仅你们可见</p>
+      <div className="home-topic-note"><BookOpenText size={15} /><span>{currentTheme && hasThemeProgress ? `正在回答：${currentTheme.title}` : "快速选择 · 自己写 · 完整导出"}</span></div>
+      <p className="privacy-note">无需注册 · 答案默认仅保存在当前设备</p>
     </div>
   </PageContainer>;
 }

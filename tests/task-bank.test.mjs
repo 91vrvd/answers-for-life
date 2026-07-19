@@ -3,6 +3,7 @@ import test from "node:test";
 import { createTaskSelection, getTaskContent, tasks } from "../src/data/tasks.ts";
 import { createReflectionSelection, getReflectionPrompt, reflectionPrompts } from "../src/data/reflectionPrompts.ts";
 import { challengeTasks } from "../src/data/challengeTasks.ts";
+import { createThemeSelection, getThemeCountOptions, lifeThemes } from "../src/data/themes.ts";
 
 test("contains 100 complete dual-mode topics", () => {
   assert.equal(tasks.length, 100);
@@ -53,5 +54,24 @@ test("contains 30 complete and editable self-challenge tasks", () => {
     assert.ok(task.category.trim());
     assert.ok(task.title.trim());
     assert.ok(task.description.trim());
+  }
+});
+
+test("contains 12 complete life-answer themes with exact promised counts", () => {
+  const counts = { roi: 12, low: 12, overthinking: 18, "better-life": 30, "ideal-life": 30, future: 20, love: 100, security: 24, money: 24, work: 18, challenge: 30, truth: 36 };
+  assert.equal(lifeThemes.length, 12);
+  assert.equal(new Set(lifeThemes.map((theme) => theme.id)).size, 12);
+  for (const theme of lifeThemes) {
+    assert.equal(theme.items.length, counts[theme.id]);
+    assert.equal(new Set(theme.items.map((item) => item.id)).size, theme.items.length);
+    assert.equal(theme.choices.length, 3);
+    assert.ok(theme.items.every((item) => item.title.trim() && item.writingPrompt.trim() && item.writingHelper.trim()));
+    for (const mode of ["choice", "write"]) {
+      for (const count of getThemeCountOptions(theme, mode)) {
+        const selected = createThemeSelection(theme, count);
+        assert.equal(selected.length, count);
+        assert.equal(new Set(selected).size, count);
+      }
+    }
   }
 });
