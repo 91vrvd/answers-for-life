@@ -27,4 +27,7 @@ Page({
     if (run.index === 0) { wx.navigateBack(); return; }
     run.index -= 1; saveRun(run); this.load();
   },
+  home() {
+    wx.reLaunch({ url: "/pages/index/index" });
+  },
 });

@@ -91,7 +91,7 @@ h1,h2,h3,p { overflow-wrap:anywhere; }
 .theme-count-estimate span { color:var(--muted); font-size:10px; }
 .theme-count-estimate strong { min-width:0; text-align:right; font-size:11px; font-weight:600; }
 .theme-answer-page,.theme-write-page { display:flex; flex-direction:column; padding:20px 18px calc(20px + env(safe-area-inset-bottom)); }
-.theme-answer-header > div:first-child { display:grid; grid-template-columns:44px 1fr 100px; align-items:center; margin-left:-8px; }
+.theme-answer-header > div:first-child { display:grid; grid-template-columns:40px 38px 1fr 100px; align-items:center; margin-left:-8px; }
 .theme-answer-header span { text-align:center; font-family:"Songti SC",serif; font-size:14px; }
 .theme-answer-header span i { margin:0 3px; color:#b9b2ac; font-style:normal; }
 .theme-answer-header b { color:var(--muted); text-align:right; font-size:10px; font-weight:500; }

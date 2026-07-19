@@ -12,10 +12,10 @@ export function HomePage() {
   const progressPage = state.themeIndex >= state.selectedThemeItemIds.length ? "themeResult" : state.themeResponseMode === "write" ? "themeWrite" : "themeChoice";
   return <PageContainer className="home-page">
     <div className="home-top">
-      <p className="eyebrow">ANSWERS FOR LIFE</p>
+      <p className="eyebrow">ANSWERS IN THE MARGINS</p>
       <div className="relationship-lines" aria-hidden="true"><i /><i /><b /></div>
       <div className="home-title-block">
-        <h1>给生活的<br /><em>答案</em></h1>
+        <h1>留白<br /><em>答案</em></h1>
         <p className="home-subtitle">有些问题不必立刻想清楚，<br />可以先认真回答一次。</p>
       </div>
     </div>

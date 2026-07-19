@@ -10,8 +10,8 @@ type WordInput = {
 export async function buildThemeWordBlob({ theme, itemIds, writtenAnswers }: WordInput) {
   const items = itemIds.map((id) => theme.items.find((item) => item.id === id)).filter(Boolean);
   const children: Paragraph[] = [
-    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 1400 }, children: [new TextRun({ text: "ANSWERS FOR LIFE", color: "B86F72", bold: true, size: 20, characterSpacing: 45 })] }),
-    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 280 }, children: [new TextRun({ text: "给生活的答案", color: "242220", bold: true, size: 54, font: "宋体" })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 1400 }, children: [new TextRun({ text: "ANSWERS IN THE MARGINS", color: "B86F72", bold: true, size: 20, characterSpacing: 45 })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 280 }, children: [new TextRun({ text: "留白答案", color: "242220", bold: true, size: 54, font: "宋体" })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 280 }, children: [new TextRun({ text: theme.title, color: "809783", size: 32, font: "宋体" })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 240 }, children: [new TextRun({ text: theme.subtitle, color: "77716B", size: 22 })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 1250 }, children: [new TextRun({ text: `共 ${items.length} 题 · ${new Date().toLocaleDateString("zh-CN")}`, color: "9A938D", size: 18 })] }),
@@ -33,7 +33,7 @@ export async function buildThemeWordBlob({ theme, itemIds, writtenAnswers }: Wor
 
   const doc = new Document({ sections: [{
     properties: { page: { margin: { top: 900, right: 900, bottom: 900, left: 900 } } },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "给生活的答案  ·  ", color: "9A938D", size: 16 }), new TextRun({ children: [PageNumber.CURRENT], color: "9A938D", size: 16 })] })] }) },
+    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "留白答案  ·  ", color: "9A938D", size: 16 }), new TextRun({ children: [PageNumber.CURRENT], color: "9A938D", size: 16 })] })] }) },
     children,
   }] });
   return Packer.toBlob(doc);
@@ -44,7 +44,7 @@ export async function downloadThemeWord(input: WordInput) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `给生活的答案-${input.theme.title}-可填写答案册.docx`;
+  link.download = `留白答案-${input.theme.title}-可填写答案册.docx`;
   link.click();
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

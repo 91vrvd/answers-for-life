@@ -24,7 +24,7 @@ import { ThemeResultPage } from "@/src/screens/ThemeResultPage";
 
 function Router() {
   const { state } = useLoveBook();
-  if (!state.hydrated) return <main className="app-loading"><i /><span>正在打开给生活的答案</span></main>;
+  if (!state.hydrated) return <main className="app-loading"><i /><span>正在打开留白答案</span></main>;
   const pages = { home: HomePage, themes: ThemeLibraryPage, themeMode: ThemeCountPage, themeCount: ThemeCountPage, themeChoice: ThemeChoicePage, themeWrite: ThemeWritePage, themeResult: ThemeResultPage, mode: ModePage, journey: JourneyPage, name: PartnerNamePage, count: QuestionCountPage, intro: IntroPage, questions: QuestionPage, personal: PersonalResultPage, invite: InvitePage, couple: CoupleResultPage, things: ThingsPage, reflectionIntro: ReflectionIntroPage, reflection: ReflectionPage, reflectionResult: ReflectionResultPage, challenge: ChallengePage };
   const CurrentPage = pages[state.page];
   return <div className="app-shell"><CurrentPage /></div>;

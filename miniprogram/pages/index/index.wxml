@@ -1,8 +1,8 @@
 <view class="page index-page" wx:if="{{!showThemes}}">
-  <text class="eyebrow">ANSWERS FOR LIFE</text>
+  <text class="eyebrow">ANSWERS IN THE MARGINS</text>
   <view class="orbit"><view></view><view></view><text>•</text></view>
   <view class="hero">
-    <view class="serif hero-title">给生活的<text>答案</text></view>
+    <view class="serif hero-title">留白<text>答案</text></view>
     <view class="serif hero-subtitle">有些问题不必立刻想清楚，\n可以先认真回答一次。</view>
   </view>
   <view class="home-bottom">

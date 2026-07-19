@@ -1,5 +1,5 @@
 <view class="page answer-page" wx:if="{{item}}">
-  <view class="answer-top"><text bindtap="previous">‹</text><text>{{current}}　/　{{total}}</text><text>{{theme.family}} · {{theme.responseMode === 'write' ? '写下' : '选择'}}</text></view>
+  <view class="answer-top"><text bindtap="previous">‹</text><text class="home-link" bindtap="home">首页</text><text>{{current}}　/　{{total}}</text><text>{{theme.family}} · {{theme.responseMode === 'write' ? '写下' : '选择'}}</text></view>
   <view class="progress"><view style="width:{{progress}}%"></view></view>
   <view class="question-card" wx:if="{{theme.responseMode === 'choice'}}">
     <view class="card-label"><text>{{item.category}}</text><text>NO. {{current}}</text></view>
