@@ -17,12 +17,12 @@ export function ThemeLibraryPage() {
     <section className="theme-library-copy">
       <p className="eyebrow">CHOOSE WHAT MATTERS NOW</p>
       <h1>此刻，你最想回答什么？</h1>
-      <p>每个主题都可以快速选择，也可以亲手写下答案。题目数量由你决定。</p>
+      <p>每个主题都有更适合的答法：行动清单用选择题，人生问题留给你自己写。</p>
     </section>
     <nav className="theme-filters" aria-label="主题分类">{filters.map((item) => <button className={filter === item ? "active" : ""} key={item} onClick={() => setFilter(item)}>{item}</button>)}</nav>
     <section className="theme-list">{themes.map((theme) => <button className={theme.featured ? "featured" : ""} key={theme.id} onClick={() => dispatch({ type: "selectTheme", themeId: theme.id })}>
       <span className="theme-list-number">{String(lifeThemes.indexOf(theme) + 1).padStart(2, "0")}</span>
-      <div><small>{theme.kicker}</small><h2>{theme.title}</h2><p>{theme.subtitle}</p><footer><span>{theme.family}</span><span>{theme.items.length} 题题库</span></footer></div>
+      <div><small>{theme.kicker}</small><h2>{theme.title}</h2><p>{theme.subtitle}</p><footer><span>{theme.family}</span><span className={`theme-kind ${theme.responseMode}`}>{theme.responseMode === "write" ? "自己写" : "选择题"}</span><span>{theme.items.length} 题题库</span></footer></div>
       <ArrowRight size={18} />
     </button>)}</section>
     <p className="theme-local-note">答案仅保存在当前设备，不需要注册。</p>

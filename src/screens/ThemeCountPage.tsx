@@ -15,8 +15,8 @@ export function ThemeCountPage() {
   if (!theme || !state.themeResponseMode) return null;
   const minutes = state.themeResponseMode === "write" ? `${Math.max(3, count * 2)}–${Math.max(5, count * 4)} 分钟` : `约 ${Math.max(1, Math.ceil(count / 6))}–${Math.max(2, Math.ceil(count / 3))} 分钟`;
   return <PageContainer className="theme-count-page">
-    <header className="simple-header"><TextButton aria-label="返回回答方式" onClick={() => dispatch({ type: "navigate", page: "themeMode" })}><ArrowLeft size={21} /></TextButton><span>{state.themeResponseMode === "write" ? "自己写" : "快速选择"}</span></header>
-    <section className="theme-count-copy"><p className="eyebrow">YOU SET THE PACE</p><h1>这次想回答多少题？</h1><p>系统会从不同分类中均衡抽取。少一点更容易完成，多一点更接近完整答案。</p></section>
+    <header className="simple-header"><TextButton aria-label="返回主题库" onClick={() => dispatch({ type: "navigate", page: "themes" })}><ArrowLeft size={21} /></TextButton><span>{state.themeResponseMode === "write" ? "自己写" : "选择题"}</span></header>
+    <section className="theme-count-copy"><p className="eyebrow">{state.themeResponseMode === "write" ? "WRITE YOUR OWN ANSWERS" : "CHOOSE BY FIRST FEELING"}</p><h1>这次想回答多少题？</h1><p>{state.themeResponseMode === "write" ? "这个主题需要你亲手写下答案。系统会从不同分类中均衡抽题，完成后可导出 Word。" : "这个主题使用选择题作答。凭第一感觉选择，完成后可保存全部答案图片。"}</p></section>
     <div className="theme-count-options">{options.map((option) => <button className={count === option ? "selected" : ""} key={option} onClick={() => setCount(option)}>{option === recommended && <small>推荐</small>}<strong>{option}</strong><span>题</span></button>)}</div>
     <div className="theme-count-estimate"><span>本次主题</span><strong>{theme.title}</strong><span>预计用时</span><strong>{minutes}</strong></div>
     <div className="sticky-actions"><PrimaryButton disabled={!count} onClick={() => dispatch({ type: "prepareThemeRun", count })}>开始回答<ArrowRight size={18} /></PrimaryButton><p>进度会自动保存在浏览器中</p></div>

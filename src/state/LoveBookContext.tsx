@@ -121,10 +121,13 @@ function reducer(state: LoveState, action: Action): LoveState {
       const themeChoiceAnswers = Object.fromEntries(Object.entries(saved.themeChoiceAnswers ?? {}).filter(([id, value]) => validThemeIds.has(id) && typeof value === "string" && validChoiceValues.has(value)));
       const themeWrittenAnswers = Object.fromEntries(Object.entries(saved.themeWrittenAnswers ?? {}).filter(([id, value]) => validThemeIds.has(id) && typeof value === "string").map(([id, value]) => [id, value.slice(0, 1200)]));
       const themeIndex = Math.min(Math.max(saved.themeIndex ?? 0, 0), selectedThemeItemIds.length);
-      const themeResponseMode = saved.themeResponseMode === "choice" || saved.themeResponseMode === "write" ? saved.themeResponseMode : null;
+      const themeResponseMode = theme?.responseMode ?? null;
       let page = saved.page ?? "home";
       if (!theme && page !== "home" && page !== "themes") page = "home";
       if (page.startsWith("theme") && !theme) page = "themes";
+      if (page === "themeMode") page = "themeCount";
+      if (page === "themeChoice" && themeResponseMode === "write") page = "themeWrite";
+      if (page === "themeWrite" && themeResponseMode === "choice") page = "themeChoice";
       if ((page === "themeChoice" || page === "themeWrite") && !selectedThemeItemIds.length) page = themeResponseMode ? "themeCount" : "themeMode";
       if ((page === "themeChoice" || page === "themeWrite") && themeIndex >= selectedThemeItemIds.length) page = "themeResult";
       if (!mode && page !== "home") page = "mode";
@@ -227,12 +230,12 @@ function reducer(state: LoveState, action: Action): LoveState {
     case "selectTheme": return {
       ...state,
       selectedThemeId: action.themeId,
-      themeResponseMode: null,
+      themeResponseMode: getLifeTheme(action.themeId)?.responseMode ?? null,
       selectedThemeItemIds: [],
       themeIndex: 0,
       themeChoiceAnswers: {},
       themeWrittenAnswers: {},
-      page: "themeMode",
+      page: "themeCount",
     };
     case "setThemeResponseMode": return { ...state, themeResponseMode: action.mode, page: "themeCount" };
     case "prepareThemeRun": {

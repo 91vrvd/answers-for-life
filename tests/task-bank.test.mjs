@@ -61,12 +61,14 @@ test("contains 12 complete life-answer themes with exact promised counts", () =>
   const counts = { roi: 12, low: 12, overthinking: 18, "better-life": 30, "ideal-life": 30, future: 20, love: 100, security: 24, money: 24, work: 18, challenge: 30, truth: 36 };
   assert.equal(lifeThemes.length, 12);
   assert.equal(new Set(lifeThemes.map((theme) => theme.id)).size, 12);
+  assert.equal(lifeThemes.filter((theme) => theme.responseMode === "choice").length, 6);
+  assert.equal(lifeThemes.filter((theme) => theme.responseMode === "write").length, 6);
   for (const theme of lifeThemes) {
     assert.equal(theme.items.length, counts[theme.id]);
     assert.equal(new Set(theme.items.map((item) => item.id)).size, theme.items.length);
     assert.equal(theme.choices.length, 3);
     assert.ok(theme.items.every((item) => item.title.trim() && item.writingPrompt.trim() && item.writingHelper.trim()));
-    for (const mode of ["choice", "write"]) {
+    for (const mode of [theme.responseMode]) {
       for (const count of getThemeCountOptions(theme, mode)) {
         const selected = createThemeSelection(theme, count);
         assert.equal(selected.length, count);

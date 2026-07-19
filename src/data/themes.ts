@@ -25,6 +25,7 @@ export type ThemeItem = {
 export type LifeTheme = {
   id: string;
   family: ThemeFamily;
+  responseMode: ResponseMode;
   kicker: string;
   title: string;
   subtitle: string;
@@ -173,18 +174,18 @@ const truthItems: ThemeItem[] = reflectionPrompts.filter((prompt) => prompt.mode
 }));
 
 export const lifeThemes: LifeTheme[] = [
-  { id: "roi", family: "成长", kicker: "LONG-TERM RETURN", title: "人生回报率最高的12件事", subtitle: "把有限的时间，留给会产生复利的选择", description: "从身体、能力、关系到方向，重新判断什么值得长期投入。", choicePrompt: "这件高回报的小事，你目前处在哪个阶段？", choices: actionChoices, items: roiItems, featured: true },
-  { id: "low", family: "成长", kicker: "COME BACK SLOWLY", title: "低谷时重新找回自己的12件事", subtitle: "不催促振作，先让生活重新有一点着力点", description: "一份可以在困难时期重新打开的温柔自救清单。", choicePrompt: "低谷到来时，这件事对你有多可用？", choices: actionChoices, items: lowItems, featured: true },
-  { id: "overthinking", family: "成长", kicker: "LESS OVERTHINKING", title: "停止精神内耗的18个练习", subtitle: "把注意力从反复想，慢慢带回真实生活", description: "看见念头、建立边界，再用小行动结束没有出口的循环。", choicePrompt: "面对内耗时，这个练习与你现在的状态接近吗？", choices: actionChoices, items: overthinkingItems },
-  { id: "better-life", family: "生活", kicker: "A BETTER ORDINARY DAY", title: "让生活慢慢变好的30个习惯", subtitle: "不追求突然改变，只积累普通日子的稳定感", description: "从早晨、身体、空间到关系，为生活建立更轻松的默认设置。", choicePrompt: "这个生活习惯，你现在做到了多少？", choices: actionChoices, items: betterLifeItems, featured: true },
-  { id: "ideal-life", family: "生活", kicker: "THE LIFE I REALLY WANT", title: "我真正想要怎样生活的30个问题", subtitle: "暂时放下应该，听听自己真正想靠近什么", description: "从日常节奏到未来方向，写出一份不替别人生活的个人答案。", choicePrompt: "关于这个人生问题，你现在有答案了吗？", choices: reflectionChoices, items: idealLifeItems, featured: true },
-  { id: "future", family: "成长", kicker: "LETTER TO THE FUTURE", title: "写给未来自己的20个问题", subtitle: "保存此刻，也给以后留下一封可以继续写的信", description: "记录现在的在意、辛苦、愿望和想对未来说的话。", choicePrompt: "关于这封写给未来的信，你想清楚了吗？", choices: reflectionChoices, items: futureItems },
-  { id: "love", family: "关系", kicker: "100 LITTLE THINGS ABOUT LOVE", title: "关于爱的100件小事", subtitle: "有些关于爱的答案，需要两个人慢慢完成", description: "保留原来的100题题库，也可以把每一件小事写成自己的答案。", choicePrompt: "关于这件爱的日常，你最接近哪一种答案？", choices: [{ value: "done", label: "已经一起做过", shortLabel: "做过", tone: "positive" }, { value: "want", label: "很想和TA一起做", shortLabel: "很想做", tone: "considering" }, { value: "later", label: "暂时没有感觉", shortLabel: "没感觉", tone: "neutral" }], items: loveItems, featured: true },
-  { id: "security", family: "关系", kicker: "SAFE IN LOVE", title: "爱情里的安全感24问", subtitle: "把那些容易误解的期待，变成可以说清楚的话", description: "从确认、冲突、边界到未来，更具体地认识自己的安全感。", choicePrompt: "在关系里，这个问题对你意味着什么？", choices: relationshipChoices, items: securityItems, featured: true },
-  { id: "money", family: "现实", kicker: "HONEST MONEY QUESTIONS", title: "关于金钱的24个真实问题", subtitle: "钱背后不只有数字，还有安全、自由和选择", description: "重新理解自己的金钱记忆、消费方式、关系边界和未来目标。", choicePrompt: "关于这个金钱问题，你现在清楚了吗？", choices: reflectionChoices, items: moneyItems, featured: true },
-  { id: "work", family: "现实", kicker: "WORK THAT FITS ME", title: "找到适合自己的工作18问", subtitle: "不只问能做什么，也问怎样工作才不会失去生活", description: "从感受、能力、回报和环境里，找出下一份工作真正重要的条件。", choicePrompt: "关于这个职业问题，你现在有答案了吗？", choices: reflectionChoices, items: workItems, featured: true },
-  { id: "challenge", family: "生活", kicker: "30 DAYS · A NEW ME", title: "30天全新自己挑战", subtitle: "不用连续，也不用按顺序，完成一次就算数", description: "通过30件真实可做的小事，重新找回生活里的新鲜感和行动力。", choicePrompt: "这件挑战，你现在最接近哪一种状态？", choices: actionChoices, items: challengeItems, featured: true },
-  { id: "truth", family: "成长", kicker: "WRITE WHAT IS TRUE", title: "12分钟真心问答", subtitle: "没有标准答案，只是认真听见自己", description: "从36题原创题库中选择一组，用几分钟写下此刻最真实的感受。", choicePrompt: "面对这个问题，你现在有答案了吗？", choices: reflectionChoices, items: truthItems },
+  { id: "roi", family: "成长", responseMode: "choice", kicker: "LONG-TERM RETURN", title: "人生回报率最高的12件事", subtitle: "把有限的时间，留给会产生复利的选择", description: "从身体、能力、关系到方向，重新判断什么值得长期投入。", choicePrompt: "这件高回报的小事，你目前处在哪个阶段？", choices: actionChoices, items: roiItems, featured: true },
+  { id: "low", family: "成长", responseMode: "choice", kicker: "COME BACK SLOWLY", title: "低谷时重新找回自己的12件事", subtitle: "不催促振作，先让生活重新有一点着力点", description: "一份可以在困难时期重新打开的温柔自救清单。", choicePrompt: "低谷到来时，这件事对你有多可用？", choices: actionChoices, items: lowItems, featured: true },
+  { id: "overthinking", family: "成长", responseMode: "choice", kicker: "LESS OVERTHINKING", title: "停止精神内耗的18个练习", subtitle: "把注意力从反复想，慢慢带回真实生活", description: "看见念头、建立边界，再用小行动结束没有出口的循环。", choicePrompt: "面对内耗时，这个练习与你现在的状态接近吗？", choices: actionChoices, items: overthinkingItems },
+  { id: "better-life", family: "生活", responseMode: "choice", kicker: "A BETTER ORDINARY DAY", title: "让生活慢慢变好的30个习惯", subtitle: "不追求突然改变，只积累普通日子的稳定感", description: "从早晨、身体、空间到关系，为生活建立更轻松的默认设置。", choicePrompt: "这个生活习惯，你现在做到了多少？", choices: actionChoices, items: betterLifeItems, featured: true },
+  { id: "ideal-life", family: "生活", responseMode: "write", kicker: "THE LIFE I REALLY WANT", title: "我真正想要怎样生活的30个问题", subtitle: "暂时放下应该，听听自己真正想靠近什么", description: "从日常节奏到未来方向，写出一份不替别人生活的个人答案。", choicePrompt: "关于这个人生问题，你现在有答案了吗？", choices: reflectionChoices, items: idealLifeItems, featured: true },
+  { id: "future", family: "成长", responseMode: "write", kicker: "LETTER TO THE FUTURE", title: "写给未来自己的20个问题", subtitle: "保存此刻，也给以后留下一封可以继续写的信", description: "记录现在的在意、辛苦、愿望和想对未来说的话。", choicePrompt: "关于这封写给未来的信，你想清楚了吗？", choices: reflectionChoices, items: futureItems },
+  { id: "love", family: "关系", responseMode: "choice", kicker: "100 LITTLE THINGS ABOUT LOVE", title: "关于爱的100件小事", subtitle: "有些关于爱的答案，需要两个人慢慢完成", description: "保留原来的100题题库，也可以把每一件小事写成自己的答案。", choicePrompt: "关于这件爱的日常，你最接近哪一种答案？", choices: [{ value: "done", label: "已经一起做过", shortLabel: "做过", tone: "positive" }, { value: "want", label: "很想和TA一起做", shortLabel: "很想做", tone: "considering" }, { value: "later", label: "暂时没有感觉", shortLabel: "没感觉", tone: "neutral" }], items: loveItems, featured: true },
+  { id: "security", family: "关系", responseMode: "write", kicker: "SAFE IN LOVE", title: "爱情里的安全感24问", subtitle: "把那些容易误解的期待，变成可以说清楚的话", description: "从确认、冲突、边界到未来，更具体地认识自己的安全感。", choicePrompt: "在关系里，这个问题对你意味着什么？", choices: relationshipChoices, items: securityItems, featured: true },
+  { id: "money", family: "现实", responseMode: "write", kicker: "HONEST MONEY QUESTIONS", title: "关于金钱的24个真实问题", subtitle: "钱背后不只有数字，还有安全、自由和选择", description: "重新理解自己的金钱记忆、消费方式、关系边界和未来目标。", choicePrompt: "关于这个金钱问题，你现在清楚了吗？", choices: reflectionChoices, items: moneyItems, featured: true },
+  { id: "work", family: "现实", responseMode: "write", kicker: "WORK THAT FITS ME", title: "找到适合自己的工作18问", subtitle: "不只问能做什么，也问怎样工作才不会失去生活", description: "从感受、能力、回报和环境里，找出下一份工作真正重要的条件。", choicePrompt: "关于这个职业问题，你现在有答案了吗？", choices: reflectionChoices, items: workItems, featured: true },
+  { id: "challenge", family: "生活", responseMode: "choice", kicker: "30 DAYS · A NEW ME", title: "30天全新自己挑战", subtitle: "不用连续，也不用按顺序，完成一次就算数", description: "通过30件真实可做的小事，重新找回生活里的新鲜感和行动力。", choicePrompt: "这件挑战，你现在最接近哪一种状态？", choices: actionChoices, items: challengeItems, featured: true },
+  { id: "truth", family: "成长", responseMode: "write", kicker: "WRITE WHAT IS TRUE", title: "12分钟真心问答", subtitle: "没有标准答案，只是认真听见自己", description: "从36题原创题库中选择一组，用几分钟写下此刻最真实的感受。", choicePrompt: "面对这个问题，你现在有答案了吗？", choices: reflectionChoices, items: truthItems },
 ];
 
 export function getLifeTheme(id: string | null | undefined) {

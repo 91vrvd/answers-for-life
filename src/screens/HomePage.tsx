@@ -20,11 +20,11 @@ export function HomePage() {
       </div>
     </div>
     <div className="home-actions">
-      <p className="home-description">12 个关于成长、生活、关系与现实的主题，<br />选择答案，或亲手写下自己。</p>
+      <p className="home-description">12 个关于成长、生活、关系与现实的主题，<br />有些凭直觉选择，有些留给自己写。</p>
       <PrimaryButton onClick={() => dispatch({ type: "navigate", page: hasThemeProgress ? progressPage : "themes" })}>
         {hasThemeProgress ? "继续刚才的答案" : "选择一个主题"}<ArrowRight size={18} />
       </PrimaryButton>
-      <div className="home-topic-note"><BookOpenText size={15} /><span>{currentTheme && hasThemeProgress ? `正在回答：${currentTheme.title}` : "快速选择 · 自己写 · 完整导出"}</span></div>
+      <div className="home-topic-note"><BookOpenText size={15} /><span>{currentTheme && hasThemeProgress ? `正在回答：${currentTheme.title}` : "题型清楚区分 · 完成后完整导出"}</span></div>
       <p className="privacy-note">无需注册 · 答案默认仅保存在当前设备</p>
     </div>
   </PageContainer>;

@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:3000";
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const base = new URL(`${protocol}://${host}`);
-  const description = "12个关于成长、生活、关系与现实的主题。快速选择，或亲手写下答案，并完整保存为图片或可继续填写的答案册。";
+  const description = "12个关于成长、生活、关系与现实的主题。行动清单用选择题，人生问题由自己写，并可完整保存为图片或答案册。";
   return {
     metadataBase: base,
     title: "给生活的答案",

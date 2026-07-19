@@ -63,6 +63,8 @@ h1,h2,h3,p { overflow-wrap:anywhere; }
 .theme-list h2 { margin:8px 0 7px; font-family:"Songti SC",serif; font-size:21px; line-height:1.38; font-weight:600; }
 .theme-list p { margin:0; color:var(--muted); font-size:11px; line-height:1.55; }
 .theme-list footer { margin-top:13px; display:flex; gap:12px; color:#99928c; font-size:9px; }
+.theme-list footer .theme-kind { margin-top:-2px; padding:2px 7px; border-radius:999px; background:var(--accent-soft); color:var(--accent-dark); font-weight:600; }
+.theme-list footer .theme-kind.write { background:var(--sage-soft); color:#607563; }
 .theme-list > button > svg { margin-top:40px; color:#aaa39d; }
 .theme-local-note { margin:25px 0 4px; color:#aaa39d; text-align:center; font-size:10px; }
 .theme-mode-page,.theme-count-page { display:flex; flex-direction:column; }
