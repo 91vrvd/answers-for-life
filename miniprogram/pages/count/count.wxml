@@ -4,5 +4,5 @@
   <view class="description">{{theme.responseMode === 'write' ? '这个主题需要你亲手写下答案。系统会均衡抽题，完成后可以导出 Word 答案册。' : '这个主题使用选择题作答。凭第一感觉选择，完成后保存全部答案图片。'}}</view>
   <view class="options"><view wx:for="{{options}}" wx:key="*this" class="option {{selected === item ? 'selected' : ''}}" data-value="{{item}}" bindtap="select"><text class="serif">{{item}}</text><text>题</text><text class="recommend" wx:if="{{(theme.responseMode === 'write' && item === 6) || (theme.responseMode === 'choice' && item === 12)}}">推荐</text></view></view>
   <view class="summary"><text>本次主题</text><text>{{theme.title}}</text><text>回答方式</text><text>{{theme.responseMode === 'write' ? '自己写' : '选择题'}}</text><text>预计用时</text><text>{{estimate}}</text></view>
-  <view class="bottom"><button class="primary" bindtap="start">开始回答　›</button><text>进度会自动保存在当前设备</text></view>
+  <view class="bottom"><button class="primary" bindtap="start">开始回答　›</button><text>进度会自动保存在当前设备</text><text class="local-only">仅在本地运行 · 内容不会上传服务器</text></view>
 </view>

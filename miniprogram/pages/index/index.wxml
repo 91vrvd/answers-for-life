@@ -9,7 +9,7 @@
     <view class="intro">12 个关于成长、生活、关系与现实的主题，\n有些凭直觉选择，有些留给自己写。</view>
     <button class="primary" bindtap="primaryAction">{{resume ? '继续刚才的答案' : '选择一个主题'}}　›</button>
     <view class="home-note">题型清楚区分 · 完成后完整导出</view>
-    <view class="privacy">无需注册 · 答案仅保存在当前设备</view>
+    <view class="privacy">仅在本地运行 · 内容不会上传服务器</view>
   </view>
 </view>
 
@@ -26,4 +26,5 @@
       <text class="arrow">›</text>
     </view>
   </view>
+  <text class="local-only">仅在本地运行 · 内容不会上传服务器</text>
 </view>
