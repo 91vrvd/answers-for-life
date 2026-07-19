@@ -1,0 +1,10 @@
+.answer-page { display:flex; flex-direction:column; padding-top:28rpx; }
+.answer-top { height:72rpx; display:grid; grid-template-columns:80rpx 1fr 190rpx; align-items:center; color:#77716B; font-size:20rpx; }.answer-top text:first-child { color:#242220; font-size:48rpx; }.answer-top text:nth-child(2) { text-align:center; font-family:"Songti SC",serif; font-size:25rpx; }.answer-top text:last-child { text-align:right; }
+.question-card,.writing-card { flex:1; min-height:700rpx; margin:45rpx 0 28rpx; padding:48rpx 42rpx 36rpx; border:1rpx solid #E8E3DE; border-radius:46rpx; display:flex; flex-direction:column; background:#FFFEFC; box-shadow:0 28rpx 70rpx rgba(57,48,43,.05); }
+.card-label,.writing-label { display:flex; justify-content:space-between; color:#B86F72; font-size:19rpx; letter-spacing:2rpx; }.card-label text:last-child,.writing-label text:last-child { color:#AAA39D; letter-spacing:0; }
+.card-main { margin:auto 0; }.card-main view { font-size:60rpx; line-height:1.4; font-weight:600; }.card-main text { display:block; margin-top:38rpx; color:#77716B; font-size:27rpx; line-height:1.85; }
+.card-footer { padding-top:30rpx; border-top:1rpx solid #E8E3DE; color:#918A84; font-size:20rpx; line-height:1.6; }
+.choices { display:grid; grid-template-columns:1fr 1fr; gap:16rpx; }.choice { min-height:92rpx; border:1rpx solid #E8E3DE; border-radius:28rpx; background:transparent; color:#756F6A; font-size:23rpx; }.choice:first-child { grid-column:1/-1; background:#B86F72; border-color:#B86F72; color:#fff; }
+.writing-label { color:#809783; }.writing-title { margin:34rpx 0 22rpx; font-size:48rpx; line-height:1.48; font-weight:600; }.writing-help { color:#77716B; font-size:22rpx; line-height:1.75; }
+.writing-card textarea { flex:1; width:100%; min-height:350rpx; margin-top:30rpx; padding:30rpx 0; border-top:1rpx solid #E8E3DE; border-bottom:1rpx solid #E8E3DE; font-family:"Kaiti SC","STKaiti",sans-serif; font-size:31rpx; line-height:1.8; }
+.writing-meta { padding-top:18rpx; display:flex; justify-content:space-between; color:#AAA39D; font-size:17rpx; }.write-actions { margin-top:8rpx; }

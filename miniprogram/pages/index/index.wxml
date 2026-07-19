@@ -1,0 +1,29 @@
+<view class="page index-page" wx:if="{{!showThemes}}">
+  <text class="eyebrow">ANSWERS FOR LIFE</text>
+  <view class="orbit"><view></view><view></view><text>•</text></view>
+  <view class="hero">
+    <view class="serif hero-title">给生活的<text>答案</text></view>
+    <view class="serif hero-subtitle">有些问题不必立刻想清楚，\n可以先认真回答一次。</view>
+  </view>
+  <view class="home-bottom">
+    <view class="intro">12 个关于成长、生活、关系与现实的主题，\n有些凭直觉选择，有些留给自己写。</view>
+    <button class="primary" bindtap="primaryAction">{{resume ? '继续刚才的答案' : '选择一个主题'}}　›</button>
+    <view class="home-note">题型清楚区分 · 完成后完整导出</view>
+    <view class="privacy">无需注册 · 答案仅保存在当前设备</view>
+  </view>
+</view>
+
+<view class="page theme-page" wx:else>
+  <view class="topbar"><text bindtap="backHome">‹</text><text>12 份主题答案</text></view>
+  <text class="eyebrow">CHOOSE WHAT MATTERS NOW</text>
+  <view class="serif theme-title">此刻，你最想回答什么？</view>
+  <view class="theme-desc">每个主题都有更适合的答法：行动清单用选择题，人生问题留给你自己写。</view>
+  <scroll-view class="filters" scroll-x enhanced show-scrollbar="{{false}}"><view class="filter-row"><text wx:for="{{filters}}" wx:key="*this" class="{{active === item ? 'active' : ''}}" data-value="{{item}}" bindtap="filter">{{item}}</text></view></scroll-view>
+  <view class="theme-list">
+    <view class="theme-item" wx:for="{{visibleThemes}}" wx:key="id" data-id="{{item.id}}" bindtap="chooseTheme">
+      <text class="number">{{index < 9 ? '0' + (index + 1) : index + 1}}</text>
+      <view class="theme-copy"><text class="kicker">{{item.kicker}}</text><view class="serif">{{item.title}}</view><text class="subtitle">{{item.subtitle}}</text><view class="meta"><text>{{item.family}}</text><text class="kind {{item.responseMode}}">{{item.responseMode === 'write' ? '自己写' : '选择题'}}</text><text>{{item.items.length}} 题题库</text></view></view>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+</view>

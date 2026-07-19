@@ -1,0 +1,19 @@
+<view class="page answer-page" wx:if="{{item}}">
+  <view class="answer-top"><text bindtap="previous">‹</text><text>{{current}}　/　{{total}}</text><text>{{theme.family}} · {{theme.responseMode === 'write' ? '写下' : '选择'}}</text></view>
+  <view class="progress"><view style="width:{{progress}}%"></view></view>
+  <view class="question-card" wx:if="{{theme.responseMode === 'choice'}}">
+    <view class="card-label"><text>{{item.category}}</text><text>NO. {{current}}</text></view>
+    <view class="card-main"><view class="serif">{{item.title}}</view><text>{{item.description}}</text></view>
+    <view class="card-footer">{{theme.choicePrompt}}</view>
+  </view>
+  <view class="choices" wx:if="{{theme.responseMode === 'choice'}}"><button wx:for="{{theme.choices}}" wx:key="value" class="choice {{item.tone}}" data-value="{{item.value}}" bindtap="choose">{{item.label}}</button></view>
+
+  <view class="writing-card" wx:else>
+    <view class="writing-label"><text>{{item.category}}</text><text>答案自动保存</text></view>
+    <view class="serif writing-title">{{item.writingPrompt}}</view>
+    <view class="writing-help">{{item.writingHelper}}</view>
+    <textarea value="{{answer}}" maxlength="1200" auto-focus placeholder="从此刻最真实的一句话开始……" bindinput="input"></textarea>
+    <view class="writing-meta"><text>{{answer ? '已经写下一份答案' : '可以留空，以后继续写'}}</text><text>{{answer.length}} / 1200</text></view>
+  </view>
+  <view class="write-actions" wx:if="{{theme.responseMode === 'write'}}"><button class="primary" bindtap="next">{{isLast ? '整理全部答案' : '下一题'}}　›</button></view>
+</view>

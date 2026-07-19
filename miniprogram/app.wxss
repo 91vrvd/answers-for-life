@@ -1,0 +1,13 @@
+page { min-height:100%; background:#F8F6F2; color:#242220; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; }
+view,text,button,textarea { box-sizing:border-box; }
+button::after { border:0; }
+.page { min-height:100vh; padding:44rpx 40rpx calc(48rpx + env(safe-area-inset-bottom)); }
+.eyebrow { color:#B86F72; font-size:19rpx; font-weight:700; letter-spacing:5rpx; }
+.serif { font-family:"Songti SC","STSong",serif; }
+.primary,.secondary { width:100%; min-height:96rpx; border-radius:999rpx; display:flex; align-items:center; justify-content:center; font-size:28rpx; font-weight:600; }
+.primary { background:#B86F72; color:#fff; box-shadow:0 18rpx 38rpx rgba(143,76,79,.13); }
+.secondary { background:transparent; color:#242220; border:1rpx solid #E8E3DE; }
+.muted { color:#77716B; }
+.progress { height:4rpx; overflow:hidden; border-radius:4rpx; background:#E8E3DE; }
+.progress view { height:100%; background:#B86F72; transition:width .3s; }
+.safe-bottom { padding-bottom:calc(24rpx + env(safe-area-inset-bottom)); }

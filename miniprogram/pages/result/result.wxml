@@ -1,0 +1,12 @@
+<view class="page result-page" wx:if="{{theme}}">
+  <text class="eyebrow">YOUR ANSWERS, KEPT TOGETHER</text>
+  <view class="serif hero">这是你留给生活的\n<text>{{items.length}}</text> 份答案</view>
+  <view class="theme-name">{{theme.title}}</view>
+  <view class="result-note">{{theme.responseMode === 'write' ? '已写下 ' + writtenCount + ' 题，留空的题也会保存在答案册里。' : '每一次选择都已整理，生成图片时不会遗漏任何一题。'}}</view>
+  <view class="section-title"><text>全部答案</text><text>ALL ANSWERS</text></view>
+  <view class="answer-row" wx:for="{{items}}" wx:key="id"><text class="answer-number">{{item.number}}</text><view><text class="category">{{item.category}}</text><view class="serif question">{{item.question}}</view><view class="answer {{item.empty ? 'empty' : ''}}">{{item.answer || '这道题留给以后继续写'}}</view></view></view>
+  <view class="export-panel"><text class="eyebrow">SAVE & CONTINUE</text><view class="serif">把这份答案带走</view><text>图片会按页生成，包含本次全部题目与答案。</text><button class="primary" bindtap="makeImages">{{generating ? '正在整理全部答案…' : '生成完整答案图片'}}</button><button wx:if="{{theme.responseMode === 'write'}}" class="secondary" bindtap="openWord">导出可填写 Word 答案册</button></view>
+  <view class="previews" wx:if="{{imagePaths.length}}"><view class="section-title"><text>共 {{imagePaths.length}} 张</text><text>答案没有被省略</text></view><view class="preview-grid"><view wx:for="{{imagePaths}}" wx:key="*this"><image src="{{item}}" mode="widthFix"></image><button data-path="{{item}}" bindtap="saveImage">保存第 {{index + 1}} 张</button></view></view></view>
+  <button class="another" bindtap="another">回答另一个主题</button>
+  <canvas type="2d" id="answerCanvas" class="hidden-canvas"></canvas>
+</view>

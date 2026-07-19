@@ -1,0 +1,29 @@
+.index-page { display:flex; flex-direction:column; }
+.orbit { position:relative; height:270rpx; margin:10rpx -40rpx -50rpx; overflow:hidden; }
+.orbit view { position:absolute; width:520rpx; height:260rpx; border-top:1rpx solid rgba(184,111,114,.55); border-radius:50%; transform:rotate(-16deg); left:-100rpx; top:100rpx; }
+.orbit view:nth-child(2) { left:auto; right:-150rpx; top:55rpx; border-color:rgba(128,151,131,.55); transform:rotate(20deg); }
+.orbit text { position:absolute; left:50%; top:120rpx; color:#B86F72; font-size:36rpx; }
+.hero-title { font-size:90rpx; line-height:1.15; font-weight:600; letter-spacing:-5rpx; white-space:pre-line; }
+.hero-title text { display:block; color:#B86F72; font-weight:400; }
+.hero-subtitle { margin-top:38rpx; font-size:36rpx; line-height:1.65; white-space:pre-line; }
+.home-bottom { margin-top:auto; text-align:center; }
+.intro { margin-bottom:38rpx; color:#77716B; font-size:25rpx; line-height:1.8; white-space:pre-line; }
+.home-note { margin-top:24rpx; color:#77716B; font-size:21rpx; }
+.privacy { margin-top:42rpx; color:#A49E97; font-size:19rpx; }
+.topbar { height:80rpx; display:flex; align-items:center; justify-content:space-between; margin-bottom:42rpx; color:#77716B; font-size:22rpx; }
+.topbar text:first-child { width:80rpx; font-size:48rpx; color:#242220; }
+.theme-title { margin:24rpx 0; font-size:62rpx; line-height:1.3; font-weight:600; }
+.theme-desc { color:#77716B; font-size:25rpx; line-height:1.75; }
+.filters { width:calc(100% + 80rpx); margin:35rpx -40rpx 15rpx; white-space:nowrap; }
+.filter-row { display:flex; gap:16rpx; padding:0 40rpx 20rpx; }
+.filter-row text { flex:none; padding:15rpx 28rpx; border:1rpx solid #E8E3DE; border-radius:999rpx; color:#77716B; font-size:22rpx; }
+.filter-row .active { background:#242220; border-color:#242220; color:#fff; }
+.theme-item { min-height:260rpx; padding:36rpx 0; display:grid; grid-template-columns:52rpx 1fr 30rpx; gap:16rpx; border-bottom:1rpx solid #E8E3DE; }
+.number { color:#A49E97; font-family:"Songti SC",serif; font-size:20rpx; }
+.theme-copy .kicker { color:#B86F72; font-size:15rpx; font-weight:700; letter-spacing:2rpx; }
+.theme-copy>view.serif { margin:13rpx 0 11rpx; font-size:38rpx; line-height:1.4; font-weight:600; }
+.subtitle { color:#77716B; font-size:21rpx; line-height:1.6; }
+.meta { margin-top:22rpx; display:flex; align-items:center; gap:18rpx; color:#99928C; font-size:17rpx; }
+.kind { padding:4rpx 12rpx; border-radius:999rpx; background:#F0DEDC; color:#9F5E61; }
+.kind.write { background:#E5EBE4; color:#607563; }
+.arrow { padding-top:75rpx; color:#AAA39D; font-size:35rpx; }

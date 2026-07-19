@@ -18,6 +18,18 @@ npm run dev
 
 默认打开 `http://localhost:3000`。
 
+## 微信小程序
+
+原生微信小程序版本位于 `miniprogram/`，可在微信开发者工具中直接导入该目录。首次正式预览或上传前，需要把 `miniprogram/project.config.json` 中的 `appid` 从 `touristappid` 替换为已注册小程序的 AppID，并确保当前微信号已被添加为该小程序的开发者。
+
+小程序版已包含 12 个主题、题量选择、均衡抽题、选择题/自己写、进度续答、完整多页图片生成，以及仅写作主题可用的 Word 答案册导出。题库源数据来自网页版本，修改 `src/data/themes.ts` 后可运行：
+
+```bash
+node scripts/build-miniprogram-data.mjs
+```
+
+重新生成小程序题库文件。
+
 检查与生产构建：
 
 ```bash
@@ -37,6 +49,8 @@ src/screens/Theme*.tsx       主题库、模式、题量、答题和完整结果
 src/state/LoveBookContext.tsx Context、reducer 与 localStorage 持久化
 src/utils/exportThemeImages.ts 完整多页 PNG 生成
 src/utils/exportThemeWord.ts  可编辑 Word 答案册生成
+miniprogram/                  原生微信小程序工程
+scripts/build-miniprogram-data.mjs 网页题库转小程序数据脚本
 tests/                       题库数量、抽题和服务端渲染测试
 ```
 
