@@ -54,7 +54,7 @@ function createCanvas() {
 function drawPageHeader(ctx: CanvasRenderingContext2D, theme: LifeTheme, page: number, total: number) {
   ctx.fillStyle = "#B86F72";
   ctx.font = '700 22px "PingFang SC", sans-serif';
-  ctx.fillText("留白答案", PAD, 86);
+  ctx.fillText("给生活的答案", PAD, 86);
   ctx.fillStyle = "#77716B";
   ctx.font = '20px "PingFang SC", sans-serif';
   ctx.textAlign = "right";
@@ -131,11 +131,11 @@ export async function generateThemeAnswerImages(input: ExportInput): Promise<The
     });
     ctx.fillStyle = "#6F6964";
     ctx.font = '600 19px "PingFang SC", sans-serif';
-    ctx.fillText("留白答案｜微信搜索同名小程序", PAD, HEIGHT - 80);
+    ctx.fillText("给生活的答案｜微信搜索同名小程序", PAD, HEIGHT - 80);
     ctx.fillStyle = "#9A938D";
     ctx.font = '16px "PingFang SC", sans-serif';
     ctx.fillText("仅在本地运行 · 内容不会上传服务器", PAD, HEIGHT - 48);
-    return { name: `留白答案-${input.theme.title}-${pageIndex + 1}.png`, url: canvas.toDataURL("image/png", 1) };
+    return { name: `给生活的答案-${input.theme.title}-${pageIndex + 1}.png`, url: canvas.toDataURL("image/png", 1) };
   });
 }
 

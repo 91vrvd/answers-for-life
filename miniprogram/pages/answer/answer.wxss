@@ -9,3 +9,4 @@
 .writing-card textarea { flex:1; width:100%; min-height:350rpx; margin-top:30rpx; padding:30rpx 0; border-top:1rpx solid #E8E3DE; border-bottom:1rpx solid #E8E3DE; font-family:"Kaiti SC","STKaiti",sans-serif; font-size:31rpx; line-height:1.8; }
 .writing-meta { padding-top:18rpx; display:flex; justify-content:space-between; color:#AAA39D; font-size:17rpx; }.write-actions { margin-top:8rpx; }
 .answer-privacy { margin-top:18rpx; }
+.exit-home { min-height:76rpx; margin:16rpx 0 0; border:1rpx solid #E8E3DE; border-radius:999rpx; display:flex; align-items:center; justify-content:center; background:transparent; color:#6F6964; font-size:21rpx; }

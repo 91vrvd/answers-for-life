@@ -8,6 +8,7 @@ Page({
     this.setData({ resume: theme && run.itemIds && run.itemIds.length ? { title: theme.title, finished: run.index >= run.itemIds.length } : null });
   },
   openThemes() { this.setData({ showThemes: true }); },
+  chooseAnother() { this.openThemes(); },
   primaryAction() { if (this.data.resume) this.resume(); else this.openThemes(); },
   backHome() { this.setData({ showThemes: false }); },
   filter(event) {

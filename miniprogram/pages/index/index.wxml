@@ -1,13 +1,14 @@
 <view class="page index-page" wx:if="{{!showThemes}}">
-  <text class="eyebrow">ANSWERS IN THE MARGINS</text>
+  <text class="eyebrow">ANSWERS FOR LIFE</text>
   <view class="orbit"><view></view><view></view><text>•</text></view>
   <view class="hero">
-    <view class="serif hero-title">留白<text>答案</text></view>
+    <view class="serif hero-title">给生活的<text>答案</text></view>
     <view class="serif hero-subtitle">有些问题不必立刻想清楚，\n可以先认真回答一次。</view>
   </view>
   <view class="home-bottom">
     <view class="intro">12 个关于成长、生活、关系与现实的主题，\n有些凭直觉选择，有些留给自己写。</view>
     <button class="primary" bindtap="primaryAction">{{resume ? '继续刚才的答案' : '选择一个主题'}}　›</button>
+    <button wx:if="{{resume}}" class="resume-alternative" bindtap="chooseAnother">选择其他主题</button>
     <view class="home-note">题型清楚区分 · 完成后完整导出</view>
     <view class="privacy">仅在本地运行 · 内容不会上传服务器</view>
   </view>

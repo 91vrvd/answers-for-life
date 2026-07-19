@@ -9,6 +9,7 @@
 .home-bottom { margin-top:auto; text-align:center; }
 .intro { margin-bottom:38rpx; color:#77716B; font-size:25rpx; line-height:1.8; white-space:pre-line; }
 .home-note { margin-top:24rpx; color:#77716B; font-size:21rpx; }
+.resume-alternative { min-height:82rpx; margin-top:14rpx; border:1rpx solid #E8E3DE; border-radius:999rpx; display:flex; align-items:center; justify-content:center; background:transparent; color:#625C57; font-size:23rpx; }
 .privacy { margin-top:42rpx; color:#A49E97; font-size:19rpx; }
 .topbar { height:80rpx; display:flex; align-items:center; justify-content:space-between; margin-bottom:42rpx; color:#77716B; font-size:22rpx; }
 .topbar text:first-child { width:80rpx; font-size:48rpx; color:#242220; }

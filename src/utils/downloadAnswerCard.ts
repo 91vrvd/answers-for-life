@@ -86,13 +86,13 @@ export function downloadAnswerCard(prompt: ReflectionPrompt, answer: string, mod
   context.fillStyle = "#8F8882";
   context.font = "500 20px 'PingFang SC', sans-serif";
   context.textAlign = "center";
-  context.fillText("留白答案｜微信搜索同名小程序", 540, 1402);
+  context.fillText("给生活的答案｜微信搜索同名小程序", 540, 1402);
   context.textAlign = "left";
 
   const url = canvas.toDataURL("image/png", 1);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `留白答案-${Date.now()}.png`;
+  link.download = `给生活的答案-${Date.now()}.png`;
   document.body.appendChild(link);
   link.click();
   link.remove();

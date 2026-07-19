@@ -10,11 +10,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = "12个关于成长、生活、关系与现实的主题。行动清单用选择题，人生问题由自己写，并可完整保存为图片或答案册。";
   return {
     metadataBase: base,
-    title: "留白答案",
+    title: "给生活的答案",
     description,
     icons: { icon: "/favicon.svg" },
-    openGraph: { title: "留白答案", description, images: [{ url: new URL("/og-liubai.png", base), width: 1672, height: 941 }] },
-    twitter: { card: "summary_large_image", title: "留白答案", description, images: [new URL("/og-liubai.png", base)] },
+    openGraph: { title: "给生活的答案", description, images: [{ url: new URL("/og-v5.png", base), width: 1672, height: 941 }] },
+    twitter: { card: "summary_large_image", title: "给生活的答案", description, images: [new URL("/og-v5.png", base)] },
   };
 }
 
