@@ -2,7 +2,7 @@
 
 一个手机端优先、无需登录、数据只保存在本地的互动答案册。用户可以从成长、生活、关系与现实等主题中选择一组问题，用选择题快速回答，或亲手写下自己的答案，最后生成适合保存和分享的完整图片或 Word 答案册。
 
-> 在线体验：[https://little-things-about-love.qq1279622658.chatgpt.site/](https://little-things-about-love.qq1279622658.chatgpt.site/)
+> 在线体验：[给生活的答案 · GitHub Pages](https://91vrvd.github.io/answers-for-life/)
 
 ![给生活的答案分享封面](./public/og-v5.png)
 
@@ -23,7 +23,9 @@
 
 直接打开：
 
-**[给生活的答案 · 在线演示](https://little-things-about-love.qq1279622658.chatgpt.site/)**
+**[给生活的答案 · 在线演示](https://91vrvd.github.io/answers-for-life/)**
+
+GitHub Pages 版本使用 `npm run build:pages` 导出静态网页，提交到 main 后自动发布。原有 Sites 构建命令保留。两个域名的本地存储相互独立，旧域名保存的答案不会自动迁移到新地址。
 
 演示无需账号。浏览器会使用 `localStorage` 保存回答；清理网站数据后，本地答案也会被清除。
 
