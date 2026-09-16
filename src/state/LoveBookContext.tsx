@@ -123,14 +123,14 @@ function reducer(state: LoveState, action: Action): LoveState {
       const themeIndex = Math.min(Math.max(saved.themeIndex ?? 0, 0), selectedThemeItemIds.length);
       const themeResponseMode = theme?.responseMode ?? null;
       let page = saved.page ?? "home";
-      if (!theme && page !== "home" && page !== "themes") page = "home";
       if (page.startsWith("theme") && !theme) page = "themes";
       if (page === "themeMode") page = "themeCount";
       if (page === "themeChoice" && themeResponseMode === "write") page = "themeWrite";
       if (page === "themeWrite" && themeResponseMode === "choice") page = "themeChoice";
       if ((page === "themeChoice" || page === "themeWrite") && !selectedThemeItemIds.length) page = themeResponseMode ? "themeCount" : "themeMode";
       if ((page === "themeChoice" || page === "themeWrite") && themeIndex >= selectedThemeItemIds.length) page = "themeResult";
-      if (!mode && page !== "home") page = "mode";
+      const isLegacyPage = page !== "home" && page !== "themes" && !page.startsWith("theme");
+      if (!mode && isLegacyPage) page = "mode";
       if (page === "questions" && (!selectedTaskIds.length || currentIndex >= selectedTaskIds.length)) page = selectedTaskIds.length ? "personal" : "count";
       if (page === "reflection" && !selectedPromptIds.length) page = "reflectionIntro";
       if (page === "challenge" && mode !== "self") page = "journey";
