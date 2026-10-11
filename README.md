@@ -2,6 +2,8 @@
 
 一个手机端优先、无需登录、数据只保存在本地的互动答案册。用户可以从成长、生活、关系与现实等主题中选择一组问题，用选择题快速回答，或亲手写下自己的答案，最后生成适合保存和分享的完整图片或 Word 答案册。
 
+**English:** A mobile-first question book for recording your own answers. No account is needed; answers stay on your device, and finished pages can be saved as images or Word files.
+
 > 在线体验：[给生活的答案 · GitHub Pages](https://91vrvd.github.io/answers-for-life/)
 
 ![给生活的答案分享封面](./public/og-v5.png)
