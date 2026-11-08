@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  // WeChat mini program pages run as CommonJS and must use require().
+  {
+    files: ["miniprogram/**/*.js"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { caughtErrors: "none" }],
+    },
+  },
 ]);
 
 export default eslintConfig;
